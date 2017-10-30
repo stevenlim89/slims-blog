@@ -1,0 +1,30 @@
+html, body{
+	background-color: #24ADC1
+}
+
+.header{
+	padding-top: 10%;
+}
+
+h1{
+	font: Verdana;
+	color: white;
+	font-size: 100px;
+}
+
+.btn{
+	color: white;
+	border-radius: 20px;
+	box-shadow: none;
+	padding: 10px;
+	width: 20%;
+	background-color: #EB3D20;
+	font-size: 20px
+}
+
+.textbox{
+	padding: 10px;
+	border: 50px;
+	width: 40%;
+	font-size: 20px
+}
