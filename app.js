@@ -2,15 +2,17 @@ var express = require('express'),
 	handlebars = require("express-handlebars"),
     app = express();
 
+var publicDir = __dirname + '/public';
+console.log(publicDir);
 // set views directory
-app.engine('html', handlebars({ 
+app.engine('html', handlebars({
 	extname: '.html',
-	partialsDir: __dirname + '/public/partials'
+	partialsDir: publicDir + '/partials'
 }));
 
 app.set('view engine', 'html');
-app.set('views', __dirname + '/public');
-app.use(express.static(__dirname + '/public'));
+app.set('views', publicDir + '/views');
+app.use(express.static(publicDir));
 
 // Body parser for req.body
 var parser = {
@@ -19,13 +21,17 @@ var parser = {
 app.use(parser.body.urlencoded({ extended: true }));
 app.use(parser.body.json());
 
-// Get methods
-app.get('/', (req, res) => {
-	res.render('home');
-});
+app.get('/*', (req, res) => {
+	var url = req.url.split('/')[1];
 
-app.get('/about', (req, res) => {
-	res.render('about');
+	switch(url) {
+		case '': console.log('HELLO'); res.render('index'); break;
+		case 'about': res.render('about'); break;
+		case 'contact': res.render('contact'); break;
+		case 'food': res.render('food'); break;
+		case 'travel': res.render('travel'); break;
+		default: res.render('index');
+	}
 });
 
 // Database stuff
