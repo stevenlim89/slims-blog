@@ -19,3 +19,21 @@
 <script src="/js/magnific-popup-options.js"></script>
 <!-- Main -->
 <script src="/js/main.js"></script>
+
+<script type="text/javascript">  
+    var path = window.location.pathname;
+    var pageLoaded = path.substring(path.lastIndexOf('/') + 1);
+
+    var activePage;
+
+    switch(pageLoaded){
+        case "blog": activePage = $('#blogTag'); break;
+        case "event": activePage = $('#eventTag'); break;
+        case "travel": activePage = $('#travelTag'); break;
+        case "contact": activePage = $('#contactTag'); break;
+        case "about": activePage = $('#aboutTag'); break;
+        default: activePage = $('#homeTag'); break;
+    }
+
+    activePage.addClass('active').closest('.menuList').find('.item').not(activePage).removeClass('active'); 
+</script>

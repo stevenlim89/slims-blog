@@ -3,7 +3,7 @@ var express = require('express'),
     app = express();
 
 var publicDir = __dirname + '/public';
-console.log(publicDir);
+
 // set views directory
 app.engine('html', handlebars({
 	extname: '.html',
@@ -25,11 +25,12 @@ app.get('/*', (req, res) => {
 	var url = req.url.split('/')[1];
 
 	switch(url) {
-		case '': console.log('HELLO'); res.render('index'); break;
+		case '': res.render('index'); break;
 		case 'about': res.render('about'); break;
 		case 'contact': res.render('contact'); break;
 		case 'food': res.render('food'); break;
 		case 'travel': res.render('travel'); break;
+		case 'blog': res.render('blog'); break;
 		default: res.render('index');
 	}
 });
