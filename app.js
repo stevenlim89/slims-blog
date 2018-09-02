@@ -1,6 +1,12 @@
 var express = require('express'),
-	handlebars = require("express-handlebars"),
-    app = express();
+	handlebars = require('express-handlebars'),
+	mongoose = require('mongoose'),
+	routes = require('./routes');
+
+// Load environment file
+require('dotenv').load();
+
+app = express();
 
 var publicDir = __dirname + '/public';
 
@@ -21,21 +27,22 @@ var parser = {
 app.use(parser.body.urlencoded({ extended: true }));
 app.use(parser.body.json());
 
-app.get('/*', (req, res) => {
-	var url = req.url.split('/')[1];
+app.get('/*', routes.renderPage);
+app.post('/createPost', routes.createPost);
 
-	switch(url) {
-		case '': res.render('index'); break;
-		case 'about': res.render('about'); break;
-		case 'contact': res.render('contact'); break;
-		case 'food': res.render('food'); break;
-		case 'travel': res.render('travel'); break;
-		case 'blog': res.render('blog'); break;
-		default: res.render('index');
-	}
+// Establish mongodb connection
+var db = mongoose.connection;
+
+mongoose.connect(process.env.DB_STRING, {
+	useNewUrlParser: true
 });
 
-// Database stuff
+db.on('error', console.error.bind(console, 'Mongo DB Connection Error:'));
+db.once('open', function(callback) {
+    console.log('Database connected successfully.');
+});
+
+// Establish port connection
 var port = 5000;
 
 app.listen(process.env.PORT || port, (req, res) => {
