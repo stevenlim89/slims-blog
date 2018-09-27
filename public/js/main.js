@@ -222,15 +222,16 @@
 	// Owl Carousel
 	var owlCrouselFeatureSlide = function() {
 		$('.owl-carousel').owlCarousel({
-			animateOut: 'fadeOut',
+		   animateOut: 'fadeOut',
 		   animateIn: 'fadeIn',
-		   autoplay: true,
-		   loop:true,
+		   autoHeight: false,
+		   autoplay: false,
+		   center: true,
+		   checkVisible: false,
+		   items: 1,
+		   loop:false,
 		   margin:0,
 		   nav:true,
-		   dots: false,
-		   autoHeight: true,
-		   items: 1,
 		   navText: [
 		      "<i class='icon-arrow-left3 owl-direction'></i>",
 		      "<i class='icon-arrow-right3 owl-direction'></i>"

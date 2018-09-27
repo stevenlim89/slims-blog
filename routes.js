@@ -1,14 +1,35 @@
 var base64 = require('base-64'),
     dateTime = require('date-and-time'),
     models = require('./models'),
-    mongoose = require('mongoose'),
     randomString = require('randomstring');
+
+exports.createComment = (req, res) => {
+    var postKey = req.body.postKey;
+
+    var commentModel = new models.Comment();
+    
+    commentModel.postKey = postKey;
+    commentModel.firstName = req.body.firstName;
+    commentMode.lastName = req.body.lastName;
+    commentModel.subject = req.body.subject;
+    commentModel.body = req.body.body;
+    commentModel.date = new Date();
+    
+    commentModel.save((error) => {
+        if (error) {
+            console.log('Was not able to save comment.');
+        }
+    });
+
+    res.redirect('/post/' + postKey);
+}
 
 exports.createPost = (req, res) => {
     var apiKey = base64.decode(req.headers.authorization);
 
     if (apiKey != process.env.API_KEY) {
         console.log('You do not have a valid api key to continue.');
+
         res.sendStatus(404);
         return;
     }
@@ -19,7 +40,11 @@ exports.createPost = (req, res) => {
     postModel.title = req.body.title;
     postModel.subject = req.body.subject;
     postModel.body = req.body.body;
-    postModel.categories = [];
+
+    if (typeof req.body.categories != 'undefined') {
+        postModel.categories = req.body.categories.split(',');
+    }
+
     postModel.date = new Date();
  
     postModel.save((error) => {

@@ -3,11 +3,12 @@ var mongoose = require('mongoose');
 /* Blog Post Schema */
 var post = new mongoose.Schema({
     key: String,
+    imageURL: String,
     title: String,
     subject: String,
     body: String,
     categories: Array,
-    date: Date,
+    date: Date
 });
 
 exports.Post = mongoose.model('Post', post);
@@ -29,7 +30,8 @@ var comment = new mongoose.Schema({
 	firstName: String,
     lastName: String,
     subject: String,
-    body: String 
+    body: String,
+    date: Date 
 });
 
 exports.Comment = mongoose.model('Comment', comment);

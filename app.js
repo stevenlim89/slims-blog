@@ -28,14 +28,13 @@ app.use(parser.body.urlencoded({ extended: true }));
 app.use(parser.body.json());
 
 app.get('/*', routes.renderPage);
+app.post('/createComment', routes.createComment);
 app.post('/createPost', routes.createPost);
 
 // Establish mongodb connection
 var db = mongoose.connection;
 
-mongoose.connect(process.env.DB_STRING, {
-	useNewUrlParser: true
-});
+mongoose.connect(process.env.DB_STRING, { useNewUrlParser: true});
 
 db.on('error', console.error.bind(console, 'Mongo DB Connection Error:'));
 db.once('open', function(callback) {
