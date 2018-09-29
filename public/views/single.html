@@ -37,7 +37,7 @@
 											<span class="cat">
 												<a href="#">{{post.subject}}</a>
 											</span>
-											<span class="date">{{post.date}}</span>
+											<span >{{post.dateString}}</span>
 											<span class="pos">By <a href="#">Steven Lim</a></span>
 										</p>
 										<h2>{{post.title}}</h2>
@@ -66,21 +66,17 @@
 								<h2 class="heading-2">{{comments.length}} comments</h2>
 								{{#each comments}}
 								<div class="review">
-									<div class="user-img" style=""></div>
+									<div class="user-img" style="background-image: url(/images/person1.jpg)"></div>
 									<div class="desc">
 										<h4>
 											<span class="text-left">
 												{{firstName}} {{lastName}}
 											</span>
-											<span class="text-right">{{date}}</span>
+											<span class="text-right">{{dateString}}</span>
 										</h4>
 										<p>{{body}}</p>
 										<p class="star">
-											<span class="text-left">
-												<a href="#" class="reply">
-													<i class="icon-reply"></i>
-												</a>
-											</span>
+											<span class="text-left"></span>
 										</p>
 									</div>
 								</div>

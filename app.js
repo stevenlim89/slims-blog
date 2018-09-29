@@ -1,6 +1,7 @@
 var express = require('express'),
 	handlebars = require('express-handlebars'),
 	mongoose = require('mongoose'),
+	postUtil = require('./util/PostUtil'),
 	routes = require('./routes');
 
 // Load environment file
@@ -28,8 +29,7 @@ app.use(parser.body.urlencoded({ extended: true }));
 app.use(parser.body.json());
 
 app.get('/*', routes.renderPage);
-app.post('/createComment', routes.createComment);
-app.post('/createPost', routes.createPost);
+app.post('/*', routes.performAction);
 
 // Establish mongodb connection
 var db = mongoose.connection;
