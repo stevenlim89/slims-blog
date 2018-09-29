@@ -1,7 +1,6 @@
-var express = require('express'),
+const express = require('express'),
 	handlebars = require('express-handlebars'),
 	mongoose = require('mongoose'),
-	postUtil = require('./util/PostUtil'),
 	routes = require('./routes');
 
 // Load environment file
