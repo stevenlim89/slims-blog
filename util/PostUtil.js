@@ -2,6 +2,8 @@ const auth = require('./AuthUtil'),
     models = require('../models'),
     randomString = require('randomstring');
 
+var htmlMinify = require('html-minifier').minify;
+
 exports.createPost = (req, res) => {
     var authCode = auth.authenticate(req.headers.authorization);
 
@@ -18,7 +20,8 @@ exports.createPost = (req, res) => {
     postModel.key = randomString.generate(8);
     postModel.title = body.title;
     postModel.subject = body.subject;
-    postModel.body = body.body;
+    postModel.body = htmlMinify(body.body);
+    postModel.imageURL = body.imageURL;
 
     if (typeof body.categories != 'undefined') {
         postModel.categories = body.categories.split(',');
@@ -32,7 +35,7 @@ exports.createPost = (req, res) => {
         }
     });
 
-    res.sendStatus(authCode);
+    res.send({ key: postModel.key, statusCode: authCode });
 }
 
 exports.deletePost = (req, res) => {
@@ -83,7 +86,11 @@ exports.editPost = (req, res) => {
         
         if (body.subject != '') {
             postResult.subject = body.subject;
-        } 
+        }
+
+        if (body.body != '') {
+            postResult.body = htmlMinify(body.body);
+        }
 
         if (typeof body.categories != 'undefined') {
             postResult.categories = body.categories.split(',');
@@ -116,6 +123,10 @@ exports.getPost = (postKey, res) => {
             return;
         }
 
+        if (postResult == null) {
+            return;
+        }
+
         commentModel.find({ postKey: postKey }, (error, commentResult) => {
             if (error) {
                 console.log('There was an error trying to find the comments.');
@@ -130,6 +141,8 @@ exports.getPost = (postKey, res) => {
             }
 
             res.render('single', { post: postResult, comments: commentResult });
+
+            return;
         });
     });
 }

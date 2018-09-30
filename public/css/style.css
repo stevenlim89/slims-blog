@@ -1391,3 +1391,13 @@ input[type="text"] {
 
 .js .animate-box {
   opacity: 0; }
+
+.caption {
+  color: #a6a6a6;
+  font-style: italic;
+  text-align: center;
+}
+
+.divider {
+  padding-bottom: 3em !important;
+}

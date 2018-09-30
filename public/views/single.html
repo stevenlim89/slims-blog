@@ -9,7 +9,7 @@
 	<div id="page">
 		{{> nav_menu}}
 			
-		<aside id="colorlib-breadcrumbs">
+		<!-- <aside >
 			<div class="container">
 				<div class="row">
 					<div class="col-md-12 breadcrumbs text-center">
@@ -19,7 +19,7 @@
 					</div>
 				</div>
 			</div>
-		</aside>
+		</aside> -->
 
 		<div id="colorlib-container">
 			<div class="container">
@@ -41,7 +41,8 @@
 											<span class="pos">By <a href="#">Steven Lim</a></span>
 										</p>
 										<h2>{{post.title}}</h2>
-										{{post.body}}
+										{{> testEntry}}
+										<!-- {{{post.body}}} -->
 									</div>
 								</div>
 							</div>
@@ -66,7 +67,8 @@
 								<h2 class="heading-2">{{comments.length}} comments</h2>
 								{{#each comments}}
 								<div class="review">
-									<div class="user-img" style="background-image: url(/images/person1.jpg)"></div>
+									<div class="user-img" 
+									style="background-image: url(/images/fb-person.jpg)"></div>
 									<div class="desc">
 										<h4>
 											<span class="text-left">

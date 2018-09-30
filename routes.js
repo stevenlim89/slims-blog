@@ -14,7 +14,7 @@ exports.renderPage = (req, res) => {
         case 'blog': res.render('blog'); break;
         case 'post': var postKey = routes[2]; if (postKey == '') { res.redirect('/'); } 
             else { postUtil.getPost(routes[2], res); } break;
-        default: res.render('index');
+        default: res.render('error');
     }
 }
 
