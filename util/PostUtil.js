@@ -1,4 +1,5 @@
 const auth = require('./AuthUtil'),
+    dateUtil = require('./DateUtil'),
     models = require('../models'),
     randomString = require('randomstring');
 
@@ -144,5 +145,41 @@ exports.getPost = (postKey, res) => {
 
             return;
         });
+    });
+}
+
+exports.getPosts = (req, res) => {
+    models.Post.find({}, (error, postResults) => {
+        if (error) {
+            console.log('There are no posts available.');
+
+            return;
+        }
+
+        var fourCounter = 1;
+
+        for (var i = 0; i < postResults.length; i++) {
+            if (fourCounter != 4) {
+                postResults[i].rowNumber = 4;
+            }
+            else {
+                postResults[i].rowNumber = 8;
+            }
+
+            var pTagIndex = postResults[i].body.indexOf('<p>');
+            postResults[i].sample = postResults[i].body.substring(pTagIndex + 4, 100);
+            postResults[i].dateString = dateUtil.getDateString(postResults[i].date);
+            
+            fourCounter++;
+        }
+
+        res.render('blog', { posts: postResults });
+    });
+}
+
+exports.getPostsWithLimit = (req, res, limit) => {
+    models.Post.find({}).sort('date', -1).limit(limit).exec((error, postResults) => {
+
+        res.render('index', { posts: postResults });
     });
 }

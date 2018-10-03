@@ -6,3 +6,4 @@ package-lock.json
 
 # Local development
 *.env
+public/partials/testEntry.html

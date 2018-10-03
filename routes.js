@@ -9,9 +9,7 @@ exports.renderPage = (req, res) => {
         case '': res.render('index'); break;
         case 'about': res.render('about'); break;
         case 'contact': res.render('contact'); break;
-        case 'food': res.render('food'); break;
-        case 'travel': res.render('travel'); break;
-        case 'blog': res.render('blog'); break;
+        case 'blog': postUtil.getPosts(req, res); break;
         case 'post': var postKey = routes[2]; if (postKey == '') { res.redirect('/'); } 
             else { postUtil.getPost(routes[2], res); } break;
         default: res.render('error');
