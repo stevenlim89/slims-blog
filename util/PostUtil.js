@@ -148,7 +148,7 @@ exports.getPost = (postKey, res) => {
     });
 }
 
-exports.getPosts = (req, res) => {
+exports.getPosts = (res) => {
     models.Post.find({}, (error, postResults) => {
         if (error) {
             console.log('There are no posts available.');
@@ -156,30 +156,63 @@ exports.getPosts = (req, res) => {
             return;
         }
 
-        var fourCounter = 1;
-
-        for (var i = 0; i < postResults.length; i++) {
-            if (fourCounter != 4) {
-                postResults[i].rowNumber = 4;
-            }
-            else {
-                postResults[i].rowNumber = 8;
-            }
-
-            var pTagIndex = postResults[i].body.indexOf('<p>');
-            postResults[i].sample = postResults[i].body.substring(pTagIndex + 4, 100);
-            postResults[i].dateString = dateUtil.getDateString(postResults[i].date);
-            
-            fourCounter++;
-        }
-
-        res.render('blog', { posts: postResults });
+        res.render('blog', { posts: assignRows(postResults) });
     });
 }
 
-exports.getPostsWithLimit = (req, res, limit) => {
-    models.Post.find({}).sort('date', -1).limit(limit).exec((error, postResults) => {
+exports.getPostsWithLimit = (res, limit) => {
+    models.Post.find({}).sort('date').exec((error, postResults) => {
+        if (error) {
+            console.log('Could not fetch posts.');
 
-        res.render('index', { posts: postResults });
+            return;
+        }
+
+        var recentPostsArray = [];
+
+        for (var i = 0; i < limit; i++) {
+            recentPostsArray.push(postResults[i]);
+
+            recentPostsArray[i].dateString = dateUtil.getDateString(postResults[i].date);
+        }
+
+        res.render('index', { recentPosts: recentPostsArray, posts: assignRows(postResults) });
     });
+}
+
+function assignRows(postResults) {
+    var alternate = false;
+    var counter = 0;
+
+    for (var i = 0; i < postResults.length; i++) {
+        if (counter == 0) {
+            postResults[i].startRowHTML = '<div class="row row-pb-md">';
+            
+            if (alternate) {
+                postResults[i].rowNumber = 8;
+                counter += 4;
+            }
+            else {
+                postResults[i].rowNumber = 4;
+            }
+        }
+
+        if (typeof postResults[i].rowNumber == 'undefined') {
+            postResults[i].rowNumber = 4;
+        }
+
+        counter += 4;
+
+        if (counter == 12 || i == (postResults.length - 1)) {
+            postResults[i].endRowHTML = '</div>';
+            alternate = (!alternate);
+            counter = 0;
+        }
+
+        var pTagIndex = postResults[i].body.indexOf('<p>');
+        postResults[i].sample = postResults[i].body.substring(pTagIndex + 4, 100);
+        postResults[i].dateString = dateUtil.getDateString(postResults[i].date);
+    }
+
+    return postResults;
 }

@@ -22,8 +22,8 @@
 
 		<div id="colorlib-container">
 			<div class="container">
-				<div class="row row-pb-md">
-					{{#each posts}}
+				{{#each posts}}	
+					{{{startRowHTML}}}	
 					<div class="col-md-{{rowNumber}}">
 						<div class="blog-entry">
 							<div class="blog-img">
@@ -34,18 +34,16 @@
 								<p class="meta">
 									<span class="cat"><a href="#">{{subject}}</a></span>
 									<span class="date">{{dateString}}</span>
-									<span class="pos">By <a href="#">{{author}}</a></span>
+									<span class="pos">By <a href="#">Steven Lim</a></span>
 								</p>
 								<h2><a href="/post/{{key}}">{{title}}</a></h2>
 								<p>{{sample}}...</p>
 							</div>
 						</div>
 					</div>
-					{{/each}}
-				</div>
-				
+					{{{endRowHTML}}}
+				{{/each}}
 				{{> pagination}}
-				
 			</div>
 		</div>
 
