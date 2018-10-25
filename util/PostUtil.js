@@ -161,7 +161,7 @@ exports.getPosts = (res) => {
 }
 
 exports.getPostsWithLimit = (res, limit) => {
-    models.Post.find({}).sort('date').exec((error, postResults) => {
+    models.Post.find({}).sort('-date').exec((error, postResults) => {
         if (error) {
             console.log('Could not fetch posts.');
 
